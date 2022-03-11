@@ -22,11 +22,18 @@ signal code, user, s_dec_term, rom0_s, rom1_s, rom2_s, rom3_s: std_logic_vector(
 signal result: std_logic_vector(7 downto 0);
 signal h0_00, h0_01, h0_10, h0_11, h1_01, h1_11, h2_00, h2_01, h2_10, h2_11, h3_01, h3_11, h4_1, h6_1, h7_1: std_logic_vector(6 downto 0);
 signal sel: std_logic_vector(5 downto 0);
-signal time_, X, s_soma, F: std_Logic_vector(3 downto 0);
+signal time_c, X, s_soma, F: std_Logic_vector(3 downto 0);
 signal P, P_reg, E, E_reg: std_logic_vector(2 downto 0);
 signal sel_mux: std_logic_vector(1 downto 0);
 signal end_gamee, end_timee, cmp0_s, cmp1_s, cmp2_s, cmp3_s: std_logic;
 
+component reg16bits is port(   
+    CLK_500hz: in std_logic;
+    EN: in std_logic;
+    RST: in std_logic;
+    D: in std_logic_vector(15 downto 0);
+    Q: out std_logic_vector(15 downto 0));
+end component;
 
 begin
 
@@ -35,8 +42,14 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
 
 
 
-     ---a fazer---
+    reguser:  reg16bits port map(
+                                CLK_500hz => Clock500,
+                                EN => E2,
+                                RST => R2, 
+                                D => Switches(15 downto 0),
+                                Q => user);
 
-
+    --remove 
+    ledr <= user;
 
 end arc_data;
