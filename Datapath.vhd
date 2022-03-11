@@ -35,21 +35,33 @@ component reg16bits is port(
     Q: out std_logic_vector(15 downto 0));
 end component;
 
+component reg6bits is port(
+    CLK_500hz: in std_logic;
+    EN: in std_logic;
+    RST: in std_logic;
+    D: in std_logic_vector(5 downto 0);
+    Q: out std_logic_vector(5 downto 0));
+end component;
+
 begin
 
 end_game <= end_gamee; --ao interligar a saida do comp=4, usar o signal end_gamee para evitar erros
 end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal end_timee para evitar erros
 
 
-
-    reguser:  reg16bits port map(
+    -- Set user choice with reg16bits component
+    reguser: reg16bits port map(
                                 CLK_500hz => Clock500,
                                 EN => E2,
                                 RST => R2, 
                                 D => Switches(15 downto 0),
                                 Q => user);
 
-    --remove 
-    ledr <= user;
+    regcode: reg6bits port map(
+                                CLK_500hz => Clock500, 
+                                EN => E1, 
+                                RST => R2, 
+                                D => Switches(5 downto 0), 
+                                Q => sel(5 downto 0));
 
 end arc_data;
