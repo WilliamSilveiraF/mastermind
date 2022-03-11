@@ -43,6 +43,32 @@ component reg6bits is port(
     Q: out std_logic_vector(5 downto 0));
 end component;
 
+component ROM0 is port(
+    address : in  std_logic_vector(3 downto 0);
+    data    : out std_logic_vector(15 downto 0));
+end component;
+
+component ROM1 is port(
+    address : in  std_logic_vector(3 downto 0);
+    data    : out std_logic_vector(15 downto 0));
+end component;
+
+component ROM2 is port(
+    address : in  std_logic_vector(3 downto 0);
+    data    : out std_logic_vector(15 downto 0));
+end component;
+
+component ROM3 is port(
+    address : in  std_logic_vector(3 downto 0);
+    data    : out std_logic_vector(15 downto 0));
+end component;
+
+component mux4x1bits16 is port (
+    in00, in01, in10, in11: in std_logic_vector(15 downto 0);
+    SEL_MUX_ROM: in std_logic_vector(1 downto 0);
+    dataout: out std_logic_vector(15 downto 0));
+end component;
+
 begin
 
 end_game <= end_gamee; --ao interligar a saida do comp=4, usar o signal end_gamee para evitar erros
@@ -57,6 +83,7 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
                                 D => Switches(15 downto 0),
                                 Q => user);
 
+    --  set sel signal to ROMs
     regcode: reg6bits port map(
                                 CLK_500hz => Clock500, 
                                 EN => E1, 
@@ -64,4 +91,31 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
                                 D => Switches(5 downto 0), 
                                 Q => sel(5 downto 0));
 
+    -- Get rom sequence by sel key
+    ROM0Sequence: ROM0 port map(
+                                address => sel(5 downto 2), 
+                                data => rom0_s);
+
+    ROM1Sequence: ROM1 port map(
+                                address => sel(5 downto 2), 
+                                data => rom1_s);
+
+    ROM2Sequence: ROM2 port map(
+                                address => sel(5 downto 2), 
+                                data => rom2_s);
+
+    ROM3Sequence: ROM3 port map(
+                                address => sel(5 downto 2), 
+                                data => rom3_s);
+
+    --Select CODE by ROM trough sel
+    GetCodeSelected: mux4x1bits16 port map(
+        in00 => rom0_s, 
+        in01 => rom1_s, 
+        in10 => rom2_s, 
+        in11 => rom3_s, 
+        SEL_MUX_ROM => sel(1 downto 0), 
+        dataout => code);
+
+    ledr <= code;
 end arc_data;
