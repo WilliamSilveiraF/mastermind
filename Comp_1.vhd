@@ -1,14 +1,14 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity Comp is
+entity Comp_1 is
     port(
-        USER: in std_logic_vector(3 downto 0);
-        CODE: in std_logic_vector(3 downto 0);
+        USER: in std_logic_vector(7 downto 4);
+        CODE: in std_logic_vector(7 downto 4);
         ISEQUAL: out std_logic);
-end Comp;
+end Comp_1;
 
-architecture behavior of Comp is
+architecture behavior of Comp_1 is
 begin
     process(USER, CODE)
     begin
