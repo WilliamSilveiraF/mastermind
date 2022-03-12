@@ -27,6 +27,14 @@ signal P, P_reg, E, E_reg: std_logic_vector(2 downto 0);
 signal sel_mux: std_logic_vector(1 downto 0);
 signal end_gamee, end_timee, cmp0_s, cmp1_s, cmp2_s, cmp3_s: std_logic;
 
+component reg3bits is port (
+    CLK_500hz: in std_logic;
+    EN: in std_logic;
+    RST: in std_logic;
+    D: in std_logic_vector(2 downto 0);
+    Q: out std_logic_vector(2 downto 0));
+end component;
+
 component reg16bits is port(   
     CLK_500hz: in std_logic;
     EN: in std_logic;
@@ -196,7 +204,21 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
     isEndGame: CompIsEqual4 port map(
         P => P(2 downto 0),
         EndGame => end_gamee);
-    
+
+    regP: reg3bits port map (
+        CLK_500hz => Clock500,
+        EN => E4,
+        RST => R2,
+        D => P(2 downto 0),
+        Q => P_reg(2 downto 0));
+
+    regE: reg3bits port map(
+        CLK_500hz => Clock500,
+        EN => E4,
+        RST => R2,
+        D => E(2 downto 0),
+        Q => E_reg(2 downto 0));
+
     fHEX0: bcd7seg port map (    
         bcd_in => code(3 downto 0),
         out_7seg => hex0(6 downto 0));
@@ -229,6 +251,6 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         bcd_in => user(15 downto 12),
         out_7seg => hex7(6 downto 0));
     
-    ledr(2 downto 0) <= P(2 downto 0);
-    ledr(5 downto 3) <= E(2 downto 0);
+    ledr(2 downto 0) <= P_reg(2 downto 0);
+    ledr(5 downto 3) <= E_reg(2 downto 0);
 end arc_data;
