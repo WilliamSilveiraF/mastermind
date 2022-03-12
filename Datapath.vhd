@@ -108,6 +108,11 @@ component bcd7seg is port (
     out_7seg:  out std_logic_vector(6 downto 0));
 end component;
 
+component CompIsEqual4 is port (
+    P: in std_logic_vector(2 downto 0);
+    EndGame: out std_logic);
+end component;
+
 begin
 
 end_game <= end_gamee; --ao interligar a saida do comp=4, usar o signal end_gamee para evitar erros
@@ -188,7 +193,10 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         inu => user(15 downto 0), 
         E => E(2 downto 0));
 
-
+    isEndGame: CompIsEqual4 port map(
+        P => P(2 downto 0),
+        EndGame => end_gamee);
+    
     fHEX0: bcd7seg port map (    
         bcd_in => code(3 downto 0),
         out_7seg => hex0(6 downto 0));
