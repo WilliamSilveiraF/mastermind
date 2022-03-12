@@ -183,7 +183,7 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         P3 => cmp3_s, 
         P => P(2 downto 0));
 
-    IsExistInMyCode: comp_e port map(
+    IsExistInMyCodeButInWrongPosition: comp_e port map(
         inc => code(15 downto 0), 
         inu => user(15 downto 0), 
         E => E(2 downto 0));
@@ -220,7 +220,7 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
     fHEX7: bcd7seg port map (    
         bcd_in => user(15 downto 12),
         out_7seg => hex7(6 downto 0));
-
+    
     ledr(2 downto 0) <= P(2 downto 0);
     ledr(5 downto 3) <= E(2 downto 0);
 end arc_data;
