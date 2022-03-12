@@ -7,7 +7,7 @@ entity Counter_round is port(
     RST: in std_logic;
     EN: in std_logic;
     CLK_500hz: in std_logic;
-    END_ROUND: out std_logic;
+    EndRound: out std_logic;
     X: out std_logic_vector(3 downto 0));
 end Counter_round;
 
@@ -30,6 +30,6 @@ begin
         end if;
     end process;
 
-    END_ROUND <= IsEndRound;
+    EndRound <= IsEndRound;
     X <= rounds;
 end behv;

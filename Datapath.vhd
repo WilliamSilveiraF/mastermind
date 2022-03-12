@@ -121,6 +121,14 @@ component CompIsEqual4 is port (
     EndGame: out std_logic);
 end component;
 
+component Counter_round is port (
+    RST: in std_logic;
+    EN: in std_logic;
+    CLK_500hz: in std_logic;
+    EndRound: out std_logic;
+    X: out std_logic_vector(3 downto 0));
+end component;
+
 begin
 
 end_game <= end_gamee; --ao interligar a saida do comp=4, usar o signal end_gamee para evitar erros
@@ -219,6 +227,13 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         D => E(2 downto 0),
         Q => E_reg(2 downto 0));
 
+    isEndTime: Counter_round port map (
+        RST => R2,
+        EN => E3,
+        CLK_500hz => Clock500,
+        EndRound => end_round,
+        X => X(3 downto 0));
+
     fHEX0: bcd7seg port map (    
         bcd_in => code(3 downto 0),
         out_7seg => hex0(6 downto 0));
@@ -251,6 +266,5 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         bcd_in => user(15 downto 12),
         out_7seg => hex7(6 downto 0));
     
-    ledr(2 downto 0) <= P_reg(2 downto 0);
-    ledr(5 downto 3) <= E_reg(2 downto 0);
+    ledr(3 downto 0) <= X(3 downto 0);
 end arc_data;
