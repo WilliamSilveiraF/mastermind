@@ -129,6 +129,11 @@ component Counter_round is port (
     X: out std_logic_vector(3 downto 0));
 end component;
 
+component DECODER_TERMOMETRICO is port (
+    X:  in std_logic_vector(3 downto 0);
+    TERMO:  out std_logic_vector(15 downto 0));
+end component;
+
 begin
 
 end_game <= end_gamee; --ao interligar a saida do comp=4, usar o signal end_gamee para evitar erros
@@ -234,6 +239,12 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         EndRound => end_round,
         X => X(3 downto 0));
 
+    SetRounds: DECODER_TERMOMETRICO port map (    
+        X => X(3 downto 0),
+        TERMO => s_dec_term(15 downto 0));
+    
+    ledr(15 downto 0) <= s_dec_term(15 downto 0) --and E1; fixme
+
     fHEX0: bcd7seg port map (    
         bcd_in => code(3 downto 0),
         out_7seg => hex0(6 downto 0));
@@ -265,6 +276,5 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
     fHEX7: bcd7seg port map (    
         bcd_in => user(15 downto 12),
         out_7seg => hex7(6 downto 0));
-    
-    ledr(3 downto 0) <= X(3 downto 0);
+
 end arc_data;
