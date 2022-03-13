@@ -243,7 +243,7 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         X => X(3 downto 0),
         TERMO => s_dec_term(15 downto 0));
     
-    ledr(15 downto 0) <= s_dec_term(15 downto 0) --and E1; fixme
+    ledr(15 downto 0) <= s_dec_term(15 downto 0) when E1 and s_dec_term(15 downto 0) else "0000000000000000";
 
     fHEX0: bcd7seg port map (    
         bcd_in => code(3 downto 0),
