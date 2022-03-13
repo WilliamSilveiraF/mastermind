@@ -288,5 +288,27 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         in10 => h0_10(6 downto 0), 
         in11 => h0_11(6 downto 0),
         SelMux => sel_mux(1 downto 0),
-        dataout => hex0);
+        dataout => hex0(6 downto 0));
+
+    --format HEX1
+    fh1_01dec7seg: bcd7seg port map (    
+        bcd_in => user(7 downto 4),
+        out_7seg => h1_01(6 downto 0));
+
+    fh1_11dec7seg: bcd7seg port map (    
+        bcd_in => code(7 downto 4),
+        out_7seg => h1_11(6 downto 0));
+
+    fHEX1: mux4x1 port map (        
+        in00 => "1000111", 
+        in01 => h1_01(6 downto 0), 
+        in10 => "0000110",
+        in11 => h1_11(6 downto 0),
+        SelMux => sel_mux(1 downto 0),
+        dataout => hex1(6 downto 0));
 end arc_data;
+-- C 1000110
+-- E 
+-- L 
+-- t 0000111
+-- P 0001100
