@@ -23,6 +23,7 @@ signal result: std_logic_vector(7 downto 0);
 signal h0_00, h0_01, h0_10, h0_11, h1_01, h1_11, h2_00, h2_01, h2_10, h2_11, h3_01, h3_11, h4_1, h6_1, h7_1: std_logic_vector(6 downto 0);
 signal sel: std_logic_vector(5 downto 0);
 signal time_c, X, s_soma, F: std_Logic_vector(3 downto 0);
+signal bits4_sel, bits4p_reg, bits4e_reg: std_Logic_vector(3 downto 0);
 signal P, P_reg, E, E_reg: std_logic_vector(2 downto 0);
 signal sel_mux: std_logic_vector(1 downto 0);
 signal end_gamee, end_timee, cmp0_s, cmp1_s, cmp2_s, cmp3_s: std_logic;
@@ -75,6 +76,12 @@ component mux4x1bits16 is port (
     in00, in01, in10, in11: in std_logic_vector(15 downto 0);
     SEL_MUX_ROM: in std_logic_vector(1 downto 0);
     dataout: out std_logic_vector(15 downto 0));
+end component;
+
+component mux4x1 is port (
+    in00, in01, in10, in11: in std_logic_vector(6 downto 0);
+    SelMux: in std_logic_vector(1 downto 0);
+    dataout: out std_logic_vector(6 downto 0));
 end component;
 
 component Comp_0 is port (        
@@ -149,7 +156,7 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         in1 => E2,
         in2 => R1, 
         in3 => E5,
-        saida => sel_mux);
+        saida => sel_mux(1 downto 0));
 
     -- Set user choice with reg16bits component
     reguser: reg16bits port map(
@@ -256,36 +263,30 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
     
     ledr(15 downto 0) <= s_dec_term(15 downto 0) when E1 = '0' else "0000000000000000";
 
-    fHEX0: bcd7seg port map (    
-        bcd_in => code(3 downto 0),
-        out_7seg => hex0(6 downto 0));
+    -- format HEX0
+    bits4_sel(3 downto 0) <= "00" & sel(1 downto 0);
+    fh0_00dec7seg: bcd7seg port map (    
+        bcd_in => bits4_sel(3 downto 0),
+        out_7seg => h0_00(6 downto 0));
 
-    fHEX1: bcd7seg port map (    
-        bcd_in => code(7 downto 4),
-        out_7seg => hex1(6 downto 0));
-
-    fHEX2: bcd7seg port map (    
-        bcd_in => code(11 downto 8),
-        out_7seg => hex2(6 downto 0));
-    
-    fHEX3: bcd7seg port map (    
-        bcd_in => code(15 downto 12),
-        out_7seg => hex3(6 downto 0));
-    
-    fHEX4: bcd7seg port map (    
+    fh0_01dec7seg: bcd7seg port map (    
         bcd_in => user(3 downto 0),
-        out_7seg => hex4(6 downto 0));
-
-    fHEX5: bcd7seg port map (    
-        bcd_in => user(7 downto 4),
-        out_7seg => hex5(6 downto 0));
-
-    fHEX6: bcd7seg port map (    
-        bcd_in => user(11 downto 8),
-        out_7seg => hex6(6 downto 0));
+        out_7seg => h0_01(6 downto 0));
     
-    fHEX7: bcd7seg port map (    
-        bcd_in => user(15 downto 12),
-        out_7seg => hex7(6 downto 0));
+    bits4e_reg(3 downto 0) <= '0' & E_reg(2 downto 0);
+    fh0_10dec7seg: bcd7seg port map (    
+        bcd_in => bits4e_reg(3 downto 0),
+        out_7seg => h0_10(6 downto 0));
+        
+    fh0_11dec7seg: bcd7seg port map (    
+        bcd_in => code(3 downto 0),
+        out_7seg => h0_11(6 downto 0));
 
+    fHEX0: mux4x1 port map (    
+        in00 => h0_00(6 downto 0), 
+        in01 => h0_01(6 downto 0), 
+        in10 => h0_10(6 downto 0), 
+        in11 => h0_11(6 downto 0),
+        SelMux => sel_mux(1 downto 0),
+        dataout => hex0);
 end arc_data;
