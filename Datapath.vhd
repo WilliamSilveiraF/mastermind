@@ -134,11 +134,22 @@ component DECODER_TERMOMETRICO is port (
     TERMO:  out std_logic_vector(15 downto 0));
 end component;
 
+component selector is port (   
+    in0, in1, in2, in3: in  std_logic;
+    saida: out std_logic_vector(1 downto 0));
+end component;
+
 begin
 
 end_game <= end_gamee; --ao interligar a saida do comp=4, usar o signal end_gamee para evitar erros
 end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal end_timee para evitar erros
 
+    selectHEXByMux: selector port map (
+        in0 => E1, 
+        in1 => E2,
+        in2 => R1, 
+        in3 => E5,
+        saida => sel_mux);
 
     -- Set user choice with reg16bits component
     reguser: reg16bits port map(
@@ -243,7 +254,7 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         X => X(3 downto 0),
         TERMO => s_dec_term(15 downto 0));
     
-    ledr(15 downto 0) <= s_dec_term(15 downto 0) when E1 and s_dec_term(15 downto 0) else "0000000000000000";
+    ledr(15 downto 0) <= s_dec_term(15 downto 0) when E1 = '0' else "0000000000000000";
 
     fHEX0: bcd7seg port map (    
         bcd_in => code(3 downto 0),
