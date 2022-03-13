@@ -306,9 +306,53 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         in11 => h1_11(6 downto 0),
         SelMux => sel_mux(1 downto 0),
         dataout => hex1(6 downto 0));
+
+    --format HEX2
+    fh2_00dec7seg: bcd7seg port map (    
+        bcd_in => sel(5 downto 2),
+        out_7seg => h2_00(6 downto 0));
+
+    fh2_01dec7seg: bcd7seg port map (
+        bcd_in => user(11 downto 8),
+        out_7seg => h2_01(6 downto 0));
+
+    bits4p_reg(3 downto 0) <= '0' & P_reg(2 downto 0);
+    fh2_10dec7seg: bcd7seg port map (
+        bcd_in => bits4p_reg(3 downto 0),
+        out_7seg => h2_10(6 downto 0));
+
+    fh2_11dec7seg: bcd7seg port map (
+        bcd_in => code(11 downto 8),
+        out_7seg => h2_11(6 downto 0));
+
+    fHEX2: mux4x1 port map (        
+        in00 => h2_00(6 downto 0), 
+        in01 => h2_01(6 downto 0), 
+        in10 => h2_10(6 downto 0),
+        in11 => h2_11(6 downto 0),
+        SelMux => sel_mux(1 downto 0),
+        dataout => hex2(6 downto 0));
+
+    --format HEX3
+    fh3_01dec7seg: bcd7seg port map (
+        bcd_in => user(15 downto 12),
+        out_7seg => h3_01(6 downto 0));
+    
+    fh3_11dec7seg: bcd7seg port map (
+        bcd_in => code(15 downto 12),
+        out_7seg => h3_11(6 downto 0));
+
+    fHEX3: mux4x1 port map (        
+        in00 => "1000110", 
+        in01 => h3_01(6 downto 0), 
+        in10 => "0001100",
+        in11 => h3_11(6 downto 0),
+        SelMux => sel_mux(1 downto 0),
+        dataout => hex3(6 downto 0));
+
 end arc_data;
 -- C 1000110
--- E 
--- L 
+-- E 0000110
+-- L 1000111
 -- t 0000111
 -- P 0001100
