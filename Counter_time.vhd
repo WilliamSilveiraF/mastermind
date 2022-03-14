@@ -7,7 +7,7 @@ entity Counter_time is port(
     RST: in std_logic;
     EN: in std_logic;
     CLK_1hz: in std_logic;
-    END_TIME: out std_logic;
+    EndTime: out std_logic;
     CTime: out std_logic_vector(3 downto 0));
 end Counter_time;
 
@@ -30,6 +30,6 @@ begin
         end if;
     end process;
 
-    END_TIME <= IsEndTime;
+    EndTime <= IsEndTime;
     CTime <= cnt;
 end behv;

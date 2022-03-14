@@ -84,6 +84,12 @@ component mux4x1 is port (
     dataout: out std_logic_vector(6 downto 0));
 end component;
 
+component mux2x1 is port (
+    in00, in01: in std_logic_vector(6 downto 0);
+    sele2: in std_logic;
+    dataout: out std_logic_vector(6 downto 0));
+end component;
+
 component Comp_0 is port (        
     USER: in std_logic_vector(3 downto 0);
     CODE: in std_logic_vector(3 downto 0);
@@ -134,6 +140,14 @@ component Counter_round is port (
     CLK_500hz: in std_logic;
     EndRound: out std_logic;
     X: out std_logic_vector(3 downto 0));
+end component;
+
+component Counter_time is port(
+    RST: in std_logic;
+    EN: in std_logic;
+    CLK_1hz: in std_logic;
+    EndTime: out std_logic;
+    CTime: out std_logic_vector(3 downto 0));
 end component;
 
 component DECODER_TERMOMETRICO is port (
@@ -250,7 +264,14 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         D => E(2 downto 0),
         Q => E_reg(2 downto 0));
 
-    isEndTime: Counter_round port map (
+    isEndTime: Counter_time port map(    
+        RST => R1,
+        EN => E2,
+        CLK_1hz => Clock1,
+        EndTime => end_timee,
+        CTime => time_c(3 downto 0));
+
+    isEndRound: Counter_round port map (
         RST => R2,
         EN => E3,
         CLK_500hz => Clock500,
@@ -349,6 +370,24 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         in11 => h3_11(6 downto 0),
         SelMux => sel_mux(1 downto 0),
         dataout => hex3(6 downto 0));
+
+    --format HEX4
+    fh4_1dec7seg: bcd7seg port map (
+        bcd_in => time_c(3 downto 0),
+        out_7seg => h4_1(6 downto 0));
+
+    fHEX4: mux2x1 port map (        
+        in00 => "1111111", 
+        in01 => h4_1(6 downto 0),
+        sele2 => E2,
+        dataout => hex4(6 downto 0));
+    
+    --format HEX5
+    fHEX5: mux2x1 port map (
+        in00 => "1111111", 
+        in01 => "0000111",
+        sele2 => E2,
+        dataout => hex5(6 downto 0));
 
 end arc_data;
 -- C 1000110
