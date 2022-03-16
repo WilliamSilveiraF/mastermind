@@ -119,6 +119,11 @@ component Soma_P is port (
     P: out std_logic_vector(2 downto 0));
 end component;
 
+component Soma1 is port (    
+    Xsum:  in std_logic_vector(3 downto 0);
+    S:  out std_logic_vector(3 downto 0));
+end component;
+
 component comp_e is port (    
     inc, inu: in  std_logic_vector(15 downto 0);
     E : out std_logic_vector(2 downto 0));
@@ -172,6 +177,11 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         in3 => E5,
         saida => sel_mux(1 downto 0));
 
+    sumOne: Soma1 port map (
+        Xsum => X(3 downto 0),
+        S => s_soma(3 downto 0));
+
+    F(3 downto 0) <= "1111" when end_timee = '0' and s_soma = "0000" else "0000";
     -- Set user choice with reg16bits component
     reguser: reg16bits port map(
                                 CLK_500hz => Clock500,
@@ -389,6 +399,30 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         sele2 => E2,
         dataout => hex5(6 downto 0));
 
+
+    result(7 downto 0) <= "000" & end_gamee & F(3 downto 0);
+    --format HEX6
+    
+    fh6_1dec7seg: bcd7seg port map (
+        bcd_in => result(3 downto 0),
+        out_7seg => h6_1(6 downto 0));
+    
+    fHEX6: mux2x1 port map (
+        in00 => "1111111", 
+        in01 => h6_1(6 downto 0),
+        sele2 => E5,
+        dataout => hex6(6 downto 0));
+
+    --format HEX7
+    fh7_1dec7seg: bcd7seg port map (
+        bcd_in => result(7 downto 4),
+        out_7seg => h7_1(6 downto 0));
+
+    fHEX7: mux2x1 port map (
+        in00 => "1111111", 
+        in01 => h7_1(6 downto 0),
+        sele2 => E5,
+        dataout => hex7(6 downto 0));
 end arc_data;
 -- C 1000110
 -- E 0000110
