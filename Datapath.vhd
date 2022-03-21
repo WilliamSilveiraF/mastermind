@@ -129,8 +129,8 @@ component comp_e is port (
     E : out std_logic_vector(2 downto 0));
 end component;
 
-component bcd7seg is port (
-    bcd_in:  in std_logic_vector(3 downto 0);
+component decod_7seg is port (
+    dec_in:  in std_logic_vector(3 downto 0);
     out_7seg:  out std_logic_vector(6 downto 0));
 end component;
 
@@ -296,21 +296,21 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
 
     -- format HEX0
     bits4_sel(3 downto 0) <= "00" & sel(1 downto 0);
-    fh0_00dec7seg: bcd7seg port map (    
-        bcd_in => bits4_sel(3 downto 0),
+    fh0_00dec7seg: decod_7seg port map (    
+        dec_in => bits4_sel(3 downto 0),
         out_7seg => h0_00(6 downto 0));
 
-    fh0_01dec7seg: bcd7seg port map (    
-        bcd_in => user(3 downto 0),
+    fh0_01dec7seg: decod_7seg port map (    
+        dec_in => user(3 downto 0),
         out_7seg => h0_01(6 downto 0));
     
     bits4e_reg(3 downto 0) <= '0' & E_reg(2 downto 0);
-    fh0_10dec7seg: bcd7seg port map (    
-        bcd_in => bits4e_reg(3 downto 0),
+    fh0_10dec7seg: decod_7seg port map (    
+        dec_in => bits4e_reg(3 downto 0),
         out_7seg => h0_10(6 downto 0));
         
-    fh0_11dec7seg: bcd7seg port map (    
-        bcd_in => code(3 downto 0),
+    fh0_11dec7seg: decod_7seg port map (    
+        dec_in => code(3 downto 0),
         out_7seg => h0_11(6 downto 0));
 
     fHEX0: mux4x1 port map (    
@@ -322,12 +322,12 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         dataout => hex0(6 downto 0));
 
     --format HEX1
-    fh1_01dec7seg: bcd7seg port map (    
-        bcd_in => user(7 downto 4),
+    fh1_01dec7seg: decod_7seg port map (    
+        dec_in => user(7 downto 4),
         out_7seg => h1_01(6 downto 0));
 
-    fh1_11dec7seg: bcd7seg port map (    
-        bcd_in => code(7 downto 4),
+    fh1_11dec7seg: decod_7seg port map (    
+        dec_in => code(7 downto 4),
         out_7seg => h1_11(6 downto 0));
 
     fHEX1: mux4x1 port map (        
@@ -339,21 +339,21 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         dataout => hex1(6 downto 0));
 
     --format HEX2
-    fh2_00dec7seg: bcd7seg port map (    
-        bcd_in => sel(5 downto 2),
+    fh2_00dec7seg: decod_7seg port map (    
+        dec_in => sel(5 downto 2),
         out_7seg => h2_00(6 downto 0));
 
-    fh2_01dec7seg: bcd7seg port map (
-        bcd_in => user(11 downto 8),
+    fh2_01dec7seg: decod_7seg port map (
+        dec_in => user(11 downto 8),
         out_7seg => h2_01(6 downto 0));
 
     bits4p_reg(3 downto 0) <= '0' & P_reg(2 downto 0);
-    fh2_10dec7seg: bcd7seg port map (
-        bcd_in => bits4p_reg(3 downto 0),
+    fh2_10dec7seg: decod_7seg port map (
+        dec_in => bits4p_reg(3 downto 0),
         out_7seg => h2_10(6 downto 0));
 
-    fh2_11dec7seg: bcd7seg port map (
-        bcd_in => code(11 downto 8),
+    fh2_11dec7seg: decod_7seg port map (
+        dec_in => code(11 downto 8),
         out_7seg => h2_11(6 downto 0));
 
     fHEX2: mux4x1 port map (        
@@ -365,12 +365,12 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         dataout => hex2(6 downto 0));
 
     --format HEX3
-    fh3_01dec7seg: bcd7seg port map (
-        bcd_in => user(15 downto 12),
+    fh3_01dec7seg: decod_7seg port map (
+        dec_in => user(15 downto 12),
         out_7seg => h3_01(6 downto 0));
     
-    fh3_11dec7seg: bcd7seg port map (
-        bcd_in => code(15 downto 12),
+    fh3_11dec7seg: decod_7seg port map (
+        dec_in => code(15 downto 12),
         out_7seg => h3_11(6 downto 0));
 
     fHEX3: mux4x1 port map (        
@@ -382,8 +382,8 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         dataout => hex3(6 downto 0));
 
     --format HEX4
-    fh4_1dec7seg: bcd7seg port map (
-        bcd_in => time_c(3 downto 0),
+    fh4_1dec7seg: decod_7seg port map (
+        dec_in => time_c(3 downto 0),
         out_7seg => h4_1(6 downto 0));
 
     fHEX4: mux2x1 port map (        
@@ -403,8 +403,8 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
     result(7 downto 0) <= "000" & end_gamee & F(3 downto 0);
     --format HEX6
     
-    fh6_1dec7seg: bcd7seg port map (
-        bcd_in => result(3 downto 0),
+    fh6_1dec7seg: decod_7seg port map (
+        dec_in => result(3 downto 0),
         out_7seg => h6_1(6 downto 0));
     
     fHEX6: mux2x1 port map (
@@ -414,8 +414,8 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         dataout => hex6(6 downto 0));
 
     --format HEX7
-    fh7_1dec7seg: bcd7seg port map (
-        bcd_in => result(7 downto 4),
+    fh7_1dec7seg: decod_7seg port map (
+        dec_in => result(7 downto 4),
         out_7seg => h7_1(6 downto 0));
 
     fHEX7: mux2x1 port map (
