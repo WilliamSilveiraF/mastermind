@@ -181,7 +181,7 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         Xsum => X(3 downto 0),
         S => s_soma(3 downto 0));
 
-    F(3 downto 0) <= "1111" when end_timee = '0' and s_soma = "0000" else "0000";
+    F(3 downto 0) <= "0000" when end_timee = '1' else not(s_soma(3 downto 0));
     -- Set user choice with reg16bits component
     reguser: reg16bits port map(
                                 CLK_500hz => Clock500,
