@@ -1,5 +1,7 @@
 library ieee;
 use ieee.std_Logic_1164.all;
+use ieee.std_logic_arith.all; 
+use ieee.std_logic_unsigned.all;
 
 entity datapath is port( 
     
@@ -181,8 +183,10 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         Xsum => X(3 downto 0),
         S => s_soma(3 downto 0));
 
-    F(3 downto 0) <= "0000" when end_timee = '1' else not(s_soma(3 downto 0));
-    -- Set user choice with reg16bits component
+    F(3 downto 0) <= "0000" when end_timee = '1' else not(s_soma(3 downto 0)) + "0010"; -- soma 1 para o complemento
+                                                                                        -- soma 1 para o ajuste da diferença de round no diagrama de estados
+    result(7 downto 0) <= "000" & end_gamee & F(3 downto 0);
+    -- Set user choice with reg16bits component 
     reguser: reg16bits port map(
                                 CLK_500hz => Clock500,
                                 EN => E2,
@@ -399,8 +403,6 @@ end_time <= end_timee; --ao interligar a saida do counter_time, usar o signal en
         sele2 => E2,
         dataout => hex5(6 downto 0));
 
-
-    result(7 downto 0) <= "000" & end_gamee & F(3 downto 0);
     --format HEX6
     
     fh6_1dec7seg: decod_7seg port map (

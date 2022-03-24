@@ -1,5 +1,7 @@
 library IEEE;
 use IEEE.Std_Logic_1164.all;
+use IEEE.std_logic_arith.all; 
+use IEEE.std_logic_unsigned.all;
 
 entity DECODER_TERMOMETRICO is port (
     X:  in std_logic_vector(3 downto 0);
@@ -8,6 +10,8 @@ end DECODER_TERMOMETRICO;
 
 architecture behv of DECODER_TERMOMETRICO is
     begin
+        
+
         process(X)
         begin
             case X is
@@ -26,8 +30,7 @@ architecture behv of DECODER_TERMOMETRICO is
                 when "1100" => TERMO <= "0001111111111111";
                 when "1101" => TERMO <= "0011111111111111";
                 when "1110" => TERMO <= "0111111111111111";
-                when "1111" => TERMO <= "1111111111111111";
-                when others => TERMO <= "0000000000000000";
+                when others => TERMO <= "1111111111111111";
             end case;
         end process;
 end behv;

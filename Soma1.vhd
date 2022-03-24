@@ -10,5 +10,8 @@ end Soma1;
 
 architecture behv of Soma1 is
 begin
-    S <= Xsum + "0001";
+    process(Xsum)
+    begin
+        S <= Xsum + "0001";
+    end process;
 end behv;

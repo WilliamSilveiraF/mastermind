@@ -23,7 +23,7 @@ begin
         elsif (EN = '1' and IsEndRound = '0') then
             if (CLK_500hz'event and CLK_500hz = '1') then
                 rounds <= rounds + "0001";
-                if (rounds = "1110") then
+                if (rounds = "1111") then
                     IsEndRound <= '1';
                 end if ;
             end if;
