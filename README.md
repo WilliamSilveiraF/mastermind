@@ -1,0 +1,1 @@
+![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/statediagram.png)
