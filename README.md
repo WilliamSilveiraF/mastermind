@@ -13,6 +13,9 @@
 - (Level 3 - each line must contain a sequence of 4 numbers from 0 to 9 in BCD)
 - Any time the user can reset the game, returning to the init state
 
+### State Diagram
+
+![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/statediagram.png)
 ### Components:
 - Controller - **controller.vhd**
 - Datapath - **datapath.vhd**
@@ -33,4 +36,3 @@
 ![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/datapath.png)
 ![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/controller.png)
 
-![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/statediagram.png)
