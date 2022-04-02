@@ -35,6 +35,3 @@
 - Selector - **selector.vhd**
 - Button - **ButtonSync.vhd**
 
-![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/datapath.png)
-![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/controller.png)
-
