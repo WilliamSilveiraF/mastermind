@@ -1,6 +1,7 @@
 # Mastermind Game
 
-### Instructions
+## Instructions
+
 - The player's main objective is to guess a secret key of 4 BCD numbers in up to 16 rounds.
 - If you guess the sequence, your score adds 16 points + the remaining amount of rounds.
 - The points will be displayed as Hexademical (if you guess in the first round, yours points will be 1F(hexadecimal) = 31(decimal -> 31 = 16 + 15)
@@ -13,10 +14,11 @@
 - (Level 3 - each line must contain a sequence of 4 numbers from 0 to 9 in BCD)
 - Any time the user can reset the game, returning to the init state
 
-### State Diagram
+## State Diagram
 
 ![all text](https://github.com/WilliamSilveiraF/mastermind/blob/main/statediagram.png)
-### Components:
+
+## Components:
 - Controller - **controller.vhd**
 - Datapath - **datapath.vhd**
 - ROM's - **ROM0.vhd, ROM1.vhd, ROM2.vhd and ROM3.vhd**
